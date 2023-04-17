@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router} from "express";
 // Middleware
 // Services
 
@@ -13,10 +13,13 @@ export abstract class AbstractController {
 
     protected constructor(prefix: string) {
         this._prefix = prefix;
+        this.initRoutes();
     }
 
     // Initialize the routes
     protected abstract initRoutes(): void;
     // Body request validation
-    protected abstract validateBodyRequest(type: any): any;
+    protected abstract validateBody(type: any): any;
 }
+
+export default AbstractController;

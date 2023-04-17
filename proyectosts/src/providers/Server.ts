@@ -32,8 +32,13 @@ class Server {
             console.log(`App listening on the @'http://localhost:${ this.port }'`); //Con el arroba se convierte en un link en la consola
         });
     }
-
-
-
+    
+    public init(){
+        this.app.listen(this.port,()=>{
+            console.log(`Server::Running @'http://localhost:${this.port}'`);
+        })
+    }
 
 }
+
+export default Server;
