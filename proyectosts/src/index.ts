@@ -5,7 +5,7 @@ import UserController from "./controllers/UserController";
 
 const app = new Server({
     port: 8080,
-    middleware: [
+    middlewares: [
         express.json(),
         express.urlencoded({ extended: true }),
         cors()

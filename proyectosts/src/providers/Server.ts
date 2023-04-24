@@ -1,44 +1,41 @@
-import express, { Request, Response } from 'express';
+import express, {Request, Response} from 'express';
+import AbstractController from '../controllers/AbstractController';
+import db from '../models';
 
-class Server {
-    private app: express.Application;
-    private port: number;
-    private env: string;
+class Server{
+    private app:express.Application;
+    private port:number;
+    private env:string;
 
-    constructor(appInit: { port: number; env: string; 
-        middleware: any[]; controllers: any[]; }) {
+    constructor(appInit:{port:number;env:string;middlewares:any[];controllers:any[]}){
         this.app = express();
         this.port = appInit.port;
-        this.env = appInit.env;
+        this.env= appInit.env;
         this.loadControllers(appInit.controllers);
-        this.loadMiddleware(appInit.middleware);
+        this.loadMiddlewares(appInit.middlewares);
     }
 
-    // Methods
-    private loadControllers(controllers: any[]) {
-        controllers.forEach((controller) => {
-            this.app.use(`/${ controller.prefix }`, controller.router);
-        });
+    private loadControllers(controllers: AbstractController[]){
+        controllers.forEach((controller:AbstractController)=>{
+            this.app.use(`/${controller.prefix}`,controller.router);
+        })
     }
-
-    private loadMiddleware(middleware: any[]) {
-        middleware.forEach((middleware) => {
+    private loadMiddlewares(middlewares: any[]){
+        middlewares.forEach((middleware:any)=>{
             this.app.use(middleware);
-        });
+        })
     }
 
-    public listen() {
-        this.app.listen(this.port, () => {
-            console.log(`App listening on the @'http://localhost:${ this.port }'`); //Con el arroba se convierte en un link en la consola
-        });
+    private async connectDB(){
+        await db.sequelize.sync({force:false})
     }
-    
-    public init(){
-        this.app.listen(this.port,()=>{
-            console.log(`Server::Running @'http://localhost:${this.port}'`);
+
+    public async init(){
+        await this.connectDB();
+        this.app.listen(this.port, () => {
+            console.log(`Server::Running 🚀 @'http://localhost:${this.port}'`);
         })
     }
 
 }
-
 export default Server;
