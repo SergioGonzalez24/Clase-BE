@@ -9,7 +9,7 @@ const cors_1 = __importDefault(require("cors"));
 const UserController_1 = __importDefault(require("./controllers/UserController"));
 const app = new Server_1.default({
     port: 8080,
-    middleware: [
+    middlewares: [
         express_1.default.json(),
         express_1.default.urlencoded({ extended: true }),
         (0, cors_1.default)()

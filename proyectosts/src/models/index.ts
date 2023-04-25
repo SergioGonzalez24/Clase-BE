@@ -23,7 +23,9 @@ if (env === 'development') {
       define: {
         timestamps: false,
         freezeTableName: true
-    }
+    },
+    dialect: 'mysql'
+    
   });
 }
 
